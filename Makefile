@@ -1,6 +1,7 @@
 .PHONY: setup
 .PHONY: init plan apply destroy
 .PHONY: format
+.PHONY: access attack
 
 setup:
 	cp terraform.tfvars.example terraform.tfvars
@@ -20,3 +21,12 @@ destroy: init
 
 format:
 	terraform fmt -recursive
+
+access:
+	@curl "$(DISTRIBUTION_DOMAIN)/index.html"
+	@curl -I "$(DISTRIBUTION_DOMAIN)/index.html"
+
+attack:
+	@for i in {1..110}; do \
+		curl -I "$(DISTRIBUTION_DOMAIN)/index.html" & \
+	done

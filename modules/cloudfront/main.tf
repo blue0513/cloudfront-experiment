@@ -1,5 +1,6 @@
 variable "origin_id" {}
 variable "domain_name" {}
+variable "web_acl" {}
 
 output "origin_access_identity" {
   value = aws_cloudfront_origin_access_identity.access_identity.iam_arn
@@ -7,14 +8,15 @@ output "origin_access_identity" {
 
 resource "aws_cloudfront_distribution" "s3_distribution" {
   origin {
-    domain_name              = var.domain_name
-    origin_id                = var.origin_id
+    domain_name = var.domain_name
+    origin_id   = var.origin_id
     s3_origin_config {
       origin_access_identity = aws_cloudfront_origin_access_identity.access_identity.cloudfront_access_identity_path
     }
   }
 
-  enabled = true
+  enabled    = true
+  web_acl_id = var.web_acl
 
   default_cache_behavior {
     allowed_methods  = ["HEAD", "GET"]
