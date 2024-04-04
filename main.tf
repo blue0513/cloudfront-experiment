@@ -14,7 +14,8 @@ provider "aws" {
 }
 
 module "s3" {
-  source                            = "./modules/s3"
+  source = "./modules/s3"
+
   bucket_name                       = var.bucket_name
   cloudfront_origin_access_identity = module.cloudfront.origin_access_identity
 }
@@ -29,6 +30,7 @@ module "cloudfront" {
 
 module "waf" {
   source = "./modules/waf"
+
   providers = {
     aws = aws.waf
   }
